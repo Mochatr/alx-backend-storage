@@ -1,6 +1,6 @@
 # 0x02. Redis Basic
 
-![Redis](image/redis_image.png)
+![Redis image](https://www.tothenew.com/blog/wp-ttn-blog/uploads/2023/09/redis_logo-1.png)
 
 This project aims to explore the basics of using Redis with Python. Through this project, learners will understand how to utilize Redis for fundamental operations and as a simple caching solution.
 

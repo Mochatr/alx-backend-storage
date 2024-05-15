@@ -67,4 +67,5 @@ if __name__ == "__main__":
     print("Storing data...")
     key = cache.store("Hello, Redis!")
     print(f"Data stored under the key: {key}")
-    print(f"store method was called {cache._redis.get('count:Cache.store').decode()} times")
+    count = cache._redis.get("count:Cache.store")
+    print(f"store method was called {count.decode() if count else 0} times")

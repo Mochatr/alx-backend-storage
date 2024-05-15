@@ -31,6 +31,23 @@ def count_calls(method: Callable) -> Callable:
 
     return wrapper
 
+def call_history(method: Callable) -> Callable:
+    """
+    Decorator to store the history of inputs and outputs
+    for methods.
+    """
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        inputs_key = f"{method.__qualname__}:inputs"
+        outputs_key = f"{method.__qualname__}:outputs"
+
+        self._redis.rpush(inputs_key, str(args))
+        result = method(self, *args, **kwargs)
+        self._redis.rpush(outputs_key, str(result))
+
+        return result
+    return wrapper
+
 
 class Cache:
     """
@@ -67,5 +84,6 @@ if __name__ == "__main__":
     print("Storing data...")
     key = cache.store("Hello, Redis!")
     print(f"Data stored under the key: {key}")
-    count = cache._redis.get("count:Cache.store")
-    print(f"store method was called {count.decode() if count else 0} times")
+    print(f"store method was called {cache._redis.get('count:Cache.store').decode()} times")
+    print(f"Input history: {cache._redis.lrange('Cache.store:inputs', 0, -1)}")
+    print(f"Output history: {cache._redis.lrange('Cache.store:outputs', 0, -1)}")

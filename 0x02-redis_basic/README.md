@@ -1,6 +1,6 @@
 # 0x02. Redis Basic
 
-![Redis](https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/medias/2020/1/40eab4627f1bea7dfe5e.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUSBVO6H7D%2F20240515%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240515T113417Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=8a3870d148da88392dfc0af2d17b2ef5a7681c11654344f790e3050eb98bc595)
+![Redis](image/redis_image.png)
 
 This project aims to explore the basics of using Redis with Python. Through this project, learners will understand how to utilize Redis for fundamental operations and as a simple caching solution.
 

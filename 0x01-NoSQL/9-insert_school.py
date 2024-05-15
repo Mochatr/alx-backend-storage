@@ -2,7 +2,7 @@
 """Define the function"""
 
 
-def list_all(mongo_collection, **kwargs):
+def insert_school(mongo_collection, **kwargs):
     """
     Insert a new document in a collection based on kwargs
 

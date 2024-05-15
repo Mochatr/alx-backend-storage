@@ -7,7 +7,7 @@ for storing and retrieving data using Redis.
 import redis
 import uuid
 import functools
-from typing import Union, Callable, Optional
+from typing import Callable, Union
 
 
 def count_calls(method: Callable) -> Callable:
@@ -31,6 +31,7 @@ def count_calls(method: Callable) -> Callable:
 
     return wrapper
 
+
 def call_history(method: Callable) -> Callable:
     """
     Decorator to store the history of inputs and outputs
@@ -47,6 +48,26 @@ def call_history(method: Callable) -> Callable:
 
         return result
     return wrapper
+
+
+def replay(func: Callable):
+    """
+    Display the history of calls of a particular function
+
+    Args:
+      func (Callable): The function to replay call history for.
+    """
+    qualified_name = func.__qualname__
+    cache_instance = func.__self__
+    inputs = cache_instance._redis.lrange(f"{qualified_name}:inputs", 0, -1)
+    outputs = cache_instance._redis.lrange(f"{qualified_name}:outputs", 0, -1)
+    count = cache_instance._redis.get(f"count:{qualifies_name}").decode()
+
+    print(f"{qualified_name} was called {count} times:")
+    for input_str, output_str in zip(inputs, outputs):
+        input_str = input_str.decode()
+        output_str = output_str.decode()
+        print(f"{qualified_name}{input_str} -> {output_str}")
 
 
 class Cache:
@@ -81,9 +102,7 @@ class Cache:
 
 if __name__ == "__main__":
     cache = Cache()
-    print("Storing data...")
-    key = cache.store("Hello, Redis!")
-    print(f"Data stored under the key: {key}")
-    print(f"store method was called {cache._redis.get('count:Cache.store').decode()} times")
-    print(f"Input history: {cache._redis.lrange('Cache.store:inputs', 0, -1)}")
-    print(f"Output history: {cache._redis.lrange('Cache.store:outputs', 0, -1)}")
+    cache.store("foo")
+    cache.store("bar")
+    cache.store(42)
+    replay(cache.store)

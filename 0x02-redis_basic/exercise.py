@@ -6,7 +6,7 @@ for storing and retrieving data using Redis.
 
 import redis
 import uuid
-from typing import Union
+from typing import Union, Callable, Optional
 
 
 class Cache:
